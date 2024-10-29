@@ -1,3 +1,4 @@
+import { SidebarHeader } from "@/components/sidebar/header";
 import {
 	Sidebar as BaseSidebar,
 	SidebarContent,
@@ -10,17 +11,16 @@ import {
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import {
-	HelpCircle,
-	User,
-	LayoutDashboard,
-	Folder,
-	TrendingUp,
-	Target,
 	BarChart2, // For Reports
-	PieChart, // For Insights
+	Folder,
+	HelpCircle,
+	LayoutDashboard,
 	LineChart, // For Projections
+	PieChart, // For Insights
+	Target,
+	TrendingUp,
+	User,
 } from "lucide-react";
-import { SidebarHeader } from "@/components/sidebar/header";
 
 export function AppSidebar() {
 	return (
@@ -35,7 +35,7 @@ export function AppSidebar() {
 						<SidebarMenu>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<a href="/dashboard">
+									<a href="/">
 										<LayoutDashboard className="mr-2 h-5 w-5" />
 										Dashboard
 									</a>
@@ -52,7 +52,7 @@ export function AppSidebar() {
 						<SidebarMenu>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<a href="/dashboard/portfolio">
+									<a href="/portfolio">
 										<Folder className="mr-2 h-5 w-5" />
 										Portfolio
 									</a>
@@ -60,7 +60,7 @@ export function AppSidebar() {
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<a href="/dashboard/transactions">
+									<a href="/transactions">
 										<TrendingUp className="mr-2 h-5 w-5" />
 										Transactions
 									</a>
@@ -77,7 +77,7 @@ export function AppSidebar() {
 						<SidebarMenu>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<a href="/dashboard/goals">
+									<a href="/goals">
 										<Target className="mr-2 h-5 w-5" />
 										Goals
 									</a>
@@ -85,7 +85,7 @@ export function AppSidebar() {
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<a href="/dashboard/projections">
+									<a href="/projections">
 										<LineChart className="mr-2 h-5 w-5" />
 										Projections
 									</a>
@@ -93,7 +93,7 @@ export function AppSidebar() {
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<a href="/dashboard/insights">
+									<a href="/insights">
 										<PieChart className="mr-2 h-5 w-5" />
 										Insights
 									</a>
@@ -101,7 +101,7 @@ export function AppSidebar() {
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
-									<a href="/dashboard/reports">
+									<a href="/reports">
 										<BarChart2 className="mr-2 h-5 w-5" />
 										Reports
 									</a>

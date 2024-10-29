@@ -1,19 +1,32 @@
 import { ChevronDown, User } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/sidebar";
+import { LogoutButton } from "@/components/logout/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import { AppSidebar } from "@/components/sidebar";
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { createClient } from "@/lib/utils/supabase/server";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
 	children,
 }: { children: React.ReactNode }) {
+	const supabase = await createClient();
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	if (!user) {
+		return redirect("/login");
+	}
+
 	return (
 		<SidebarProvider>
 			<AppSidebar />
@@ -34,13 +47,13 @@ export default function DashboardLayout({
 								</button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
-								<Link href="/dashboard/profile">
+								<Link href="/profile">
 									<DropdownMenuItem>Profile</DropdownMenuItem>
 								</Link>
-								<Link href="/dashboard/settings">
+								<Link href="/settings">
 									<DropdownMenuItem>Settings</DropdownMenuItem>
 								</Link>
-								<DropdownMenuItem>Logout</DropdownMenuItem>
+								<LogoutButton />
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</div>

@@ -1,5 +1,5 @@
 {
-  "id": "883d96e1-8a12-4d5d-9db7-f5162a30c392",
+  "id": "966d21ef-708c-404a-abc5-e5ddf5a7bd32",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -15,21 +15,27 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
         "name": {
           "name": "name",
-          "type": "varchar(100)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
         "type": {
           "name": "type",
-          "type": "varchar(20)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
         "symbol": {
           "name": "symbol",
-          "type": "varchar(10)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -42,7 +48,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "assets_user_id_profile_id_fk": {
+          "name": "assets_user_id_profile_id_fk",
+          "tableFrom": "assets",
+          "tableTo": "profile",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "assets_symbol_unique": {
@@ -70,21 +90,15 @@
           "primaryKey": true,
           "notNull": true
         },
-        "table_name": {
-          "name": "table_name",
-          "type": "varchar(50)",
+        "pathname": {
+          "name": "pathname",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "action": {
-          "name": "action",
-          "type": "varchar(10)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "record_id": {
-          "name": "record_id",
-          "type": "uuid",
+        "method": {
+          "name": "method",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -92,7 +106,7 @@
           "name": "user_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "timestamp": {
           "name": "timestamp",
@@ -101,32 +115,91 @@
           "notNull": true,
           "default": "now()"
         },
-        "old_data": {
-          "name": "old_data",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "new_data": {
-          "name": "new_data",
+        "data": {
+          "name": "data",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "audit_logs_user_id_profile_id_fk": {
+          "name": "audit_logs_user_id_profile_id_fk",
+          "tableFrom": "audit_logs",
+          "tableTo": "profile",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {
-        "action_check": {
-          "name": "action_check",
-          "value": "\"audit_logs\".\"action\" IN ('INSERT', 'UPDATE', 'DELETE')"
-        }
-      }
+      "checkConstraints": {}
     },
     "public.portfolios": {
       "name": "portfolios",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_value": {
+          "name": "total_value",
+          "type": "numeric(20, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "portfolios_userId_profile_id_fk": {
+          "name": "portfolios_userId_profile_id_fk",
+          "tableFrom": "portfolios",
+          "tableTo": "profile",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "total_value_check": {
+          "name": "total_value_check",
+          "value": "\"portfolios\".\"total_value\" >= 0"
+        }
+      }
+    },
+    "public.profile": {
+      "name": "profile",
       "schema": "",
       "columns": {
         "id": {
@@ -142,14 +215,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "total_value": {
-          "name": "total_value",
-          "type": "numeric(20, 2)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "last_updated": {
-          "name": "last_updated",
+        "updated_at": {
+          "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -157,15 +224,25 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "profile_user_id_users_id_fk": {
+          "name": "profile_user_id_users_id_fk",
+          "tableFrom": "profile",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {
-        "total_value_check": {
-          "name": "total_value_check",
-          "value": "\"portfolios\".\"total_value\" >= 0"
-        }
-      }
+      "checkConstraints": {}
     },
     "public.transactions": {
       "name": "transactions",
@@ -188,11 +265,11 @@
           "name": "asset_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "transaction_type": {
           "name": "transaction_type",
-          "type": "varchar(10)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -218,6 +295,19 @@
       },
       "indexes": {},
       "foreignKeys": {
+        "transactions_user_id_profile_id_fk": {
+          "name": "transactions_user_id_profile_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "profile",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
         "transactions_asset_id_assets_id_fk": {
           "name": "transactions_asset_id_assets_id_fk",
           "tableFrom": "transactions",

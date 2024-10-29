@@ -1,21 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import {
+	type ColumnDef,
+	type ColumnFiltersState,
+	type SortingState,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
 	useReactTable,
-	type ColumnDef,
-	type ColumnFiltersState,
-	type SortingState,
 } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -24,6 +23,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
 	Table,
 	TableBody,
@@ -40,14 +40,19 @@ interface TransactionsTableProps {
 
 export const columns: ColumnDef<Transaction>[] = [
 	{
-		accessorKey: "assetName",
+		accessorKey: "assets_name", // Adjusted to access nested `assets.name`
 		header: () => <span>Asset Name</span>,
+		cell: ({ row }) => {
+			// Access the nested `name` property under `assets`
+			const assetName = row.original.assets?.name;
+			return <span>{assetName || "N/A"}</span>; // Display "N/A" if name is missing
+		},
 	},
 	{
-		accessorKey: "transactionType",
+		accessorKey: "transaction_type",
 		header: () => <span>Transaction Type</span>,
 		cell: ({ row }) => (
-			<span className="capitalize">{row.getValue("transactionType")}</span>
+			<span className="capitalize">{row.getValue("transaction_type")}</span>
 		),
 	},
 	{
@@ -59,10 +64,10 @@ export const columns: ColumnDef<Transaction>[] = [
 		},
 	},
 	{
-		accessorKey: "pricePerUnit",
+		accessorKey: "price_per_unit",
 		header: () => <div className="text-right">Price per Unit</div>,
 		cell: ({ row }) => {
-			const price = Number.parseFloat(row.getValue("pricePerUnit") as string);
+			const price = Number.parseFloat(row.getValue("price_per_unit") as string);
 			const formatted = new Intl.NumberFormat("en-US", {
 				style: "currency",
 				currency: "USD",
@@ -141,10 +146,10 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
 				<Input
 					placeholder="Filter assets..."
 					value={
-						(table.getColumn("assetName")?.getFilterValue() as string) ?? ""
+						(table.getColumn("assets_name")?.getFilterValue() as string) ?? ""
 					}
 					onChange={(event) =>
-						table.getColumn("assetName")?.setFilterValue(event.target.value)
+						table.getColumn("assets_name")?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm"
 				/>

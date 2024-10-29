@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import {
+	LineChart as BaseLineChart,
 	CartesianGrid,
 	Line,
-	LineChart as BaseLineChart,
 	XAxis,
 } from "recharts";
 
 import {
+	type ChartConfig,
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
-	type ChartConfig,
 } from "@/components/ui/chart";
 import type { Balance } from "@/types";
 
@@ -29,6 +29,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function PortfolioChart({ balance }: { balance: Balance[] }) {
+	console.log(balance);
 	const [activeChart, setActiveChart] =
 		useState<keyof typeof chartConfig>("balance");
 
@@ -76,7 +77,7 @@ export function PortfolioChart({ balance }: { balance: Balance[] }) {
 					}
 				/>
 				<Line
-					dataKey={activeChart}
+					dataKey="value" // Update to match the "value" key in your data
 					type="monotone"
 					stroke={`var(--color-${activeChart})`}
 					strokeWidth={2}

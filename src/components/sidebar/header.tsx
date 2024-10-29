@@ -19,28 +19,29 @@ import { useEffect, useState } from "react";
 import { hc } from "hono/client";
 
 import type { AppType } from "@/app/v1/[...path]/route";
-import { db } from "@/db";
-import { transactions } from "@/db/schema";
 
 export function SidebarHeader() {
+	const client = hc<AppType>("/");
+
 	const accounts = [
 		{ name: "Checking", number: "8894" },
 		{ name: "Savings", number: "4421" },
 		{ name: "Vacation Fund", number: "7321" },
 	];
 	const [selectedAccount, setSelectedAccount] = useState(accounts[0]);
-	// const client = hc<AppType>("/");
-
-	// async function getTransactions() {
-	// 	const response = await client.v1.transactions.$get();
-	// 	const { transactions } = await response.json();
-
-	// 	return transactions;
-	// }
 
 	// const { data } = useQuery({
-	// 	queryKey: ["transactions"],
-	// 	queryFn: getTransactions,
+	// 	queryKey: ["accounts"],
+	// 	queryFn: async () => {
+	// 		const response = await client.v1.accounts.$get();
+	// 		const { data, error } = await response.json();
+
+	// 		if (error) {
+	// 			throw new Error(error.message);
+	// 		}
+
+	// 		return data;
+	// 	},
 	// });
 
 	// useEffect(() => {
