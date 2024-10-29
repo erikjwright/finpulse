@@ -30,8 +30,8 @@ export default function Transactions() {
 	return (
 		<div className="p-6 space-y-6">
 			<h1 className="text-2xl font-bold">Transactions Overview</h1>
-			{transactions ? (
-				<TransactionsTable transactions={transactions ?? []} />
+			{transactions && transactions.length > 0 ? (
+				<TransactionsTable transactions={transactions} />
 			) : (
 				<p>You have no transactions</p>
 			)}

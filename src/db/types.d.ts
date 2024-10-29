@@ -153,19 +153,19 @@ export type Database = {
 			};
 			transactions: {
 				Row: {
-					amount: number;
+					amount: string;
 					asset_id: string;
 					id: string;
-					price_per_unit: number;
+					price_per_unit: string;
 					transaction_date: string;
 					transaction_type: string;
 					user_id: string;
 				};
 				Insert: {
-					amount: number;
+					amount: string;
 					asset_id: string;
 					id?: string;
-					price_per_unit: number;
+					price_per_unit: string;
 					transaction_date?: string;
 					transaction_type: string;
 					user_id: string;

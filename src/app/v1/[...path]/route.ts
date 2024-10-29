@@ -13,8 +13,9 @@ const route = app
 	.get("/transactions", async (c) => {
 		const { data, error } = await supabase.from("transactions").select(`
       *,
-      assets (name)
+      assets (name, symbol, type, id, user_id, created_at)
     `);
+
 		return c.json({ data, error }, error ? 500 : 200);
 	})
 	.post(
@@ -41,8 +42,8 @@ const route = app
 		const data = transactions.map((transaction) => {
 			const valueChange =
 				transaction.transaction_type === "buy"
-					? transaction.amount * transaction.price_per_unit
-					: -transaction.amount * transaction.price_per_unit;
+					? Number(transaction.amount) * Number(transaction.price_per_unit)
+					: -Number(transaction.amount) * Number(transaction.price_per_unit);
 
 			cumulativeValue += valueChange;
 			return {

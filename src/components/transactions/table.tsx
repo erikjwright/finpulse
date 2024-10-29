@@ -32,13 +32,15 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import type { Transaction } from "@/types";
+import type { SelectAsset, SelectTransaction } from "@/db/schema";
 
 interface TransactionsTableProps {
-	transactions: Transaction[];
+	transactions: (SelectTransaction & { assets: SelectAsset | null })[];
 }
 
-export const columns: ColumnDef<Transaction>[] = [
+export const columns: ColumnDef<
+	SelectTransaction & { assets: SelectAsset | null }
+>[] = [
 	{
 		accessorKey: "assets_name", // Adjusted to access nested `assets.name`
 		header: () => <span>Asset Name</span>,

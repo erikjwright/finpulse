@@ -120,21 +120,29 @@ export const selectProfileSchema = createSelectSchema(profile);
 
 // Assets
 export type InsertAsset = InferInsertModel<typeof assets>;
-export type SelectAsset = InferSelectModel<typeof assets>;
+type SelectAssetOrigin = InferSelectModel<typeof assets>;
+export type SelectAsset = Omit<SelectAssetOrigin, "created_at"> & {
+	created_at: string;
+};
 
 export const insertAssetSchema = createInsertSchema(assets);
 export const selectAssetSchema = createSelectSchema(assets);
 
 // Transactions
 export type InsertTransaction = InferInsertModel<typeof transactions>;
-export type SelectTransaction = InferSelectModel<typeof transactions>;
-
+export type SelectTransactionOrigin = InferSelectModel<typeof transactions>;
+export type SelectTransaction = Omit<
+	SelectTransactionOrigin,
+	"transaction_date"
+> & {
+	transaction_date: string;
+};
 export const insertTransactionSchema = createInsertSchema(transactions, {
-	amount: z.number(),
-	price_per_unit: z.number(),
 	transaction_date: z.string(),
 });
-export const selectTransactionSchema = createSelectSchema(transactions);
+export const selectTransactionSchema = createSelectSchema(transactions, {
+	transaction_date: z.string(),
+});
 
 // Portfolios
 export type InsertPortfolio = InferInsertModel<typeof portfolios>;
