@@ -8,8 +8,8 @@ import { TransactionsTable } from "@/components/transactions/table";
 
 export default function Transactions() {
 	const client = hc<AppType>(
-		process.env.VERCEL_URL
-			? `https://${process.env.VERCEL_URL}`
+		process.env.VERCEL_PROJECT_PRODUCTION_URL
+			? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
 			: "http://localhost:3000",
 	);
 

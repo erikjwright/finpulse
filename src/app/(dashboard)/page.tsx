@@ -1,3 +1,5 @@
+"use client";
+
 import type { AppType } from "@/app/v1/[...path]/route";
 import { PortfolioChart } from "@/components/portfolio/charts/line";
 import { RecentActivity } from "@/components/recent-activity";
@@ -13,8 +15,8 @@ import { TransactionsTable } from "../../components/transactions/table";
 
 export default async function Dashboard() {
 	const client = hc<AppType>(
-		process.env.VERCEL_URL
-			? `https://${process.env.VERCEL_URL}`
+		process.env.VERCEL_PROJECT_PRODUCTION_URL
+			? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
 			: "http://localhost:3000",
 	);
 
