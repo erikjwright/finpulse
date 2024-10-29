@@ -15,8 +15,8 @@ import { TransactionsTable } from "../../components/transactions/table";
 
 export default async function Dashboard() {
 	const client = hc<AppType>(
-		process.env.VERCEL_PROJECT_PRODUCTION_URL
-			? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+		process.env.NEXT_PUBLIC_VERCEL_URL
+			? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
 			: "http://localhost:3000",
 	);
 
