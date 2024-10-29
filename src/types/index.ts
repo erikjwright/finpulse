@@ -7,7 +7,7 @@ export type Asset = {
 
 export type Balance = {
 	date: string;
-	balance: number;
+	value: number;
 };
 
 export type Goal = {

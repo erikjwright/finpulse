@@ -7,7 +7,11 @@ import type { AppType } from "@/app/v1/[...path]/route";
 import { TransactionsTable } from "@/components/transactions/table";
 
 export default function Transactions() {
-	const client = hc<AppType>("http://localhost:3000");
+	const client = hc<AppType>(
+		process.env.VERCEL_URL
+			? `https://${process.env.VERCEL_URL}`
+			: "http://localhost:3000",
+	);
 
 	const { data: transactions } = useQuery({
 		queryKey: ["transactions"],

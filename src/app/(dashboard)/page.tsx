@@ -12,7 +12,11 @@ import { hc } from "hono/client";
 import { TransactionsTable } from "../../components/transactions/table";
 
 export default async function Dashboard() {
-	const client = hc<AppType>("http://localhost:3000");
+	const client = hc<AppType>(
+		process.env.VERCEL_URL
+			? `https://${process.env.VERCEL_URL}`
+			: "http://localhost:3000",
+	);
 
 	async function fetchPortfolioHistory() {
 		const response = await client.v1.portfolio.history.$get();

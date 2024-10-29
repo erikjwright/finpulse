@@ -29,7 +29,6 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function PortfolioChart({ balance }: { balance: Balance[] }) {
-	console.log(balance);
 	const [activeChart, setActiveChart] =
 		useState<keyof typeof chartConfig>("balance");
 
